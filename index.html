@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allen R. Hoem — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions</title>
+  <meta name="description" content="Allen R. Hoem — Product Leader specializing in Agentic AI, Generative AI, and high-scale enterprise platforms. 18+ years taking autonomous and predictive AI from concept to enterprise-scale General Availability." />
+  <meta name="author" content="Allen R. Hoem" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Allen R. Hoem — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions" />
+  <meta property="og:description" content="18+ years taking autonomous and generative AI from whiteboard to enterprise-scale GA. 50B+ peak messages. $6M/yr saved. 2 AI patents." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink:     '#0F1E3D',
+            bronze:  '#B08322',
+            brass:   '#C99A3A',
+            violet:  '#7C5CFF',
+            cyan:    '#22D3EE',
+            canvas:  '#0A0A0F',
+            surface: '#14141E',
+            elevated:'#1B1B27',
+            cream:   '#FBFAF7',
+            paper:   '#F2F0EA'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif:   ['Fraunces', 'ui-serif', 'Georgia', 'serif']
+          }
+        }
+      }
+    };
+    // Apply theme before paint to avoid flash (system default, with manual override)
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-serif { font-family: 'Fraunces', serif; }
+
+    /* Animated accent gradient text */
+    .grad-accent {
+      background: linear-gradient(100deg, #7C5CFF 0%, #22D3EE 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .dark .grad-accent { background: linear-gradient(100deg, #9B82FF 0%, #46E0F5 100%); -webkit-background-clip: text; background-clip: text; }
+
+    /* Hero dot grid (dark) / subtle warmth (light) */
+    .hero-grid {
+      background-image: radial-gradient(rgba(124,92,255,0.10) 1px, transparent 1px);
+      background-size: 28px 28px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+    }
+    .hero-glow { background: radial-gradient(ellipse 50% 45% at 50% 0%, rgba(124,92,255,0.18), transparent 70%); }
+    .dark .hero-glow { background: radial-gradient(ellipse 55% 50% at 50% 0%, rgba(124,92,255,0.22), transparent 70%); }
+
+    /* Reveal-on-scroll */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .tile { transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s; }
+    .tile:hover { transform: translateY(-4px); }
+
+    ::selection { background: rgba(124,92,255,.30); }
+    .dark ::selection { background: rgba(34,211,238,.30); }
+
+    /* Nav link underline */
+    .navlink { position: relative; }
+    .navlink::after { content:''; position:absolute; left:0; bottom:-3px; height:1.5px; width:0; background: currentColor; transition: width .3s ease; }
+    .navlink:hover::after { width:100%; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1 !important; transform:none !important; transition:none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body class="bg-cream dark:bg-canvas text-ink/90 dark:text-slate-300 antialiased transition-colors duration-300">
+
+  <!-- ============ NAV ============ -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-cream/80 dark:bg-canvas/70 border-b border-ink/5 dark:border-white/5 transition-colors">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#top" class="font-display font-700 text-lg tracking-tight text-ink dark:text-white">
+        Allen<span class="grad-accent">.</span>Hoem
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/70 dark:text-slate-400">
+        <a href="#impact" class="navlink hover:text-ink dark:hover:text-white transition-colors">Impact</a>
+        <a href="#about" class="navlink hover:text-ink dark:hover:text-white transition-colors">About</a>
+        <a href="#pillars" class="navlink hover:text-ink dark:hover:text-white transition-colors">Strengths</a>
+        <a href="#experience" class="navlink hover:text-ink dark:hover:text-white transition-colors">Experience</a>
+        <a href="#testimonials" class="navlink hover:text-ink dark:hover:text-white transition-colors">Voices</a>
+        <a href="#recognition" class="navlink hover:text-ink dark:hover:text-white transition-colors">Recognition</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="themeToggle" aria-label="Toggle light and dark mode"
+          class="h-9 w-9 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/70 dark:text-slate-300 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36-1.42-1.42M7.05 7.05 5.64 5.64m12.72 0-1.42 1.42M7.05 16.95l-1.41 1.41M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+        <a href="#contact" class="hidden sm:inline-flex items-center rounded-lg bg-ink dark:bg-white px-4 h-9 text-sm font-semibold text-white dark:text-canvas hover:bg-ink/90 dark:hover:bg-slate-200 transition-colors">
+          Connect with Me
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="top" class="relative overflow-hidden pt-32 pb-20 md:pt-44 md:pb-28">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="absolute inset-0 hero-grid pointer-events-none opacity-70"></div>
+
+    <div class="relative max-w-6xl mx-auto px-6">
+      <div class="reveal inline-flex items-center gap-2 rounded-full border border-ink/10 dark:border-white/10 bg-ink/[0.03] dark:bg-white/5 px-4 py-1.5 text-xs font-medium text-ink/70 dark:text-slate-300 mb-8">
+        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-violet"></span></span>
+        Building the future of Agentic &amp; Generative AI
+      </div>
+
+      <h1 class="reveal font-display font-700 tracking-tight text-ink dark:text-white text-4xl sm:text-6xl md:text-7xl leading-[1.04]">
+        I take autonomous &amp;<br class="hidden sm:block" />
+        generative AI from<br class="hidden sm:block" />
+        <span class="grad-accent">whiteboard to enterprise scale.</span>
+      </h1>
+
+      <p class="reveal mt-7 max-w-2xl text-lg md:text-xl leading-relaxed text-ink/70 dark:text-slate-400">
+        I'm <span class="font-semibold text-ink dark:text-white">Allen R. Hoem</span> — a Product Leader with 18+ years turning frontier
+        technology into commercial reality. I ship flagship Agentic and predictive AI platforms to General Availability,
+        on infrastructure that moves <span class="font-semibold text-ink dark:text-white">50&nbsp;billion+ messages</span> at peak.
+      </p>
+
+      <p class="reveal mt-3 font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">
+        Product Leader · Agentic AI &amp; High-Scale Enterprise Solutions
+      </p>
+
+      <div class="reveal mt-10 flex flex-wrap items-center gap-4">
+        <a href="#contact" class="inline-flex items-center gap-2 rounded-xl bg-ink dark:bg-white px-6 h-12 font-semibold text-white dark:text-canvas hover:translate-y-[-2px] transition-transform">
+          Let's talk AI strategy
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/allenhoem" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 px-6 h-12 font-semibold text-ink dark:text-white hover:border-violet/60 dark:hover:border-cyan/60 transition-colors">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18h2.67V9.5zM7 6.13a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18v-4.67c0-2.5-1.34-3.66-3.12-3.66a2.69 2.69 0 0 0-2.44 1.34V9.5h-2.66V18h2.66v-4.5c0-1.19.23-2.34 1.7-2.34 1.45 0 1.47 1.36 1.47 2.42V18h2.39z"/></svg>
+          View LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METRICS ============ -->
+  <section id="impact" class="relative py-14 border-y border-ink/5 dark:border-white/5 bg-ink/[0.02] dark:bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10">
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-target="50" data-suffix="B+">0</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">Peak messages<br>processed</div>
+        </div>
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-prefix="$" data-target="6" data-suffix="M">0</span><span class="text-bronze dark:text-cyan">/yr</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">Operational<br>savings delivered</div>
+        </div>
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-target="5000" data-suffix="+" data-comma="1">0</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">Enterprise accounts<br>landed in 2 years</div>
+        </div>
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-target="2" data-suffix="">0</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">AI patents<br>invented &amp; filed</div>
+        </div>
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-target="4" data-suffix="×">0</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">Connections<br>keynote showcases</div>
+        </div>
+        <div class="reveal text-center md:text-left">
+          <div class="font-display font-700 text-3xl md:text-4xl text-ink dark:text-white"><span class="count" data-target="18" data-suffix="+">0</span></div>
+          <div class="mt-1 text-xs md:text-sm text-ink/60 dark:text-slate-400 leading-snug">Years of product<br>&amp; engineering</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-12 items-start">
+      <div class="md:col-span-4 reveal">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">The Operator</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-4xl text-ink dark:text-white leading-tight">
+          Fluent in the architecture <span class="font-serif italic font-400 grad-accent">and</span> the P&amp;L.
+        </h2>
+      </div>
+      <div class="md:col-span-8 reveal space-y-6 text-lg leading-relaxed text-ink/75 dark:text-slate-400">
+        <p>
+          For three consecutive years, the autonomous agent capabilities I designed served as the
+          primary keynote showcase at Dreamforce and Connections — Salesforce's "tip of the spear" for Generative AI.
+          I took the Agentforce Campaign Creation Agent from a 3-customer closed pilot to a 100+ customer beta to
+          <span class="font-semibold text-ink dark:text-white">500+ GA accounts</span>, helping land
+          <span class="font-semibold text-ink dark:text-white">5,000+ new and updated accounts</span> in two years.
+        </p>
+        <p>
+          What sets me apart is range. I hold a BSEE in semiconductors and have shipped microservices, REST APIs, and
+          real-time platforms at planetary scale — yet I own pricing, packaging, and the multi-million-dollar pipelines
+          those platforms unlock. I translate deeply technical architecture into enterprise trust with Fortune 500
+          executives, and I drive operational efficiency that drops millions to the bottom line.
+        </p>
+        <p class="font-serif text-xl md:text-2xl italic text-ink dark:text-white leading-snug border-l-2 border-bronze dark:border-cyan pl-6">
+          "I don't just forecast where AI is going — I build the platforms that get the enterprise there, safely and at scale."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PILLARS ============ -->
+  <section id="pillars" class="py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal max-w-2xl mb-14">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">What I bring</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">Four pillars of value</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        <!-- Pillar 1 -->
+        <div class="tile reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 hover:border-violet/50 dark:hover:border-violet/50">
+          <div class="h-11 w-11 grid place-items-center rounded-xl bg-violet/10 text-violet dark:text-violet mb-5">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3m9-9h-3M6 12H3m13.5-6.5-2 2m-7 7-2 2m11 0-2-2m-7-7-2-2M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>
+          </div>
+          <h3 class="font-display font-600 text-xl text-ink dark:text-white">Agentic &amp; GenAI pioneer</h3>
+          <p class="mt-3 text-ink/70 dark:text-slate-400 leading-relaxed">
+            Delivered Salesforce's first generative AI experience for Marketing Cloud at the very dawn of Agentic AI — then owned and evolved the next generation of autonomous marketing agents. Orchestrated cross-cloud coordination spanning Data Cloud, Agentforce, Commerce Cloud, and beyond to bring agents to market. Integral to the product vision at Salesforce Connections keynote, four years running.
+          </p>
+        </div>
+        <!-- Pillar 2 -->
+        <div class="tile reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 hover:border-cyan/50 dark:hover:border-cyan/50">
+          <div class="h-11 w-11 grid place-items-center rounded-xl bg-cyan/10 text-cyan dark:text-cyan mb-5">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg>
+          </div>
+          <h3 class="font-display font-600 text-xl text-ink dark:text-white">Scale &amp; monetization</h3>
+          <p class="mt-3 text-ink/70 dark:text-slate-400 leading-relaxed">
+            Own Salesforce's highest-volume engagement channel — 50B+ peak messages, 3–7% YoY growth on a mature
+            portfolio. Built the Transactional Messaging Service from scratch, capturing 30% of total channel volume.
+          </p>
+        </div>
+        <!-- Pillar 3 -->
+        <div class="tile reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 hover:border-bronze/60 dark:hover:border-violet/50">
+          <div class="h-11 w-11 grid place-items-center rounded-xl bg-bronze/10 text-bronze dark:text-brass mb-5">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Zm-2 9 1.8 1.8L15 9.5"/></svg>
+          </div>
+          <h3 class="font-display font-600 text-xl text-ink dark:text-white">Enterprise trust</h3>
+          <p class="mt-3 text-ink/70 dark:text-slate-400 leading-relaxed">
+            Won and defended marquee accounts with ultra-high-scale API designs, industry-leading SLOs, and friction-free integration for critical messaging — slashing time-to-value and capturing competitive share from global banking and retail giants.
+          </p>
+        </div>
+        <!-- Pillar 4 -->
+        <div class="tile reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 hover:border-violet/50 dark:hover:border-cyan/50">
+          <div class="h-11 w-11 grid place-items-center rounded-xl bg-violet/10 text-violet dark:text-cyan mb-5">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a4 4 0 0 1 4 4c0 1.6-.9 2.9-2 3.6V13H10v-2.4C8.9 9.9 8 8.6 8 7a4 4 0 0 1 4-4ZM10 16h4M10 19h4"/></svg>
+          </div>
+          <h3 class="font-display font-600 text-xl text-ink dark:text-white">Patented inventor &amp; engineer</h3>
+          <p class="mt-3 text-ink/70 dark:text-slate-400 leading-relaxed">
+            Two AI patents, one publication, and the 2019 Salesforce Innovation Award. A BSEE foundation (semiconductors
+            &amp; IC design) plus $3M+ in cost savings engineered earlier at AMD — proof I build, not just strategize.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience" class="py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal max-w-2xl mb-16">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">The track record</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">A career across elite ecosystems</h2>
+      </div>
+
+      <div class="relative border-l border-ink/10 dark:border-white/10 ml-2 md:ml-3 space-y-12">
+
+        <!-- Salesforce -->
+        <div class="reveal relative pl-8 md:pl-12">
+          <span class="absolute -left-[7px] top-1.5 h-3.5 w-3.5 rounded-full bg-violet ring-4 ring-cream dark:ring-canvas"></span>
+          <div class="flex flex-wrap items-baseline gap-x-3">
+            <h3 class="font-display font-700 text-2xl text-ink dark:text-white">Salesforce</h3>
+            <span class="text-sm text-ink/50 dark:text-slate-500">Nov 2016 – Present</span>
+          </div>
+          <p class="mt-1 font-semibold text-bronze dark:text-cyan">Director of Product Management — Marketing Cloud &amp; Agentforce</p>
+          <ul class="mt-4 space-y-2.5 text-ink/75 dark:text-slate-400 leading-relaxed">
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Delivered Salesforce's first generative AI experience for Marketing Cloud; owned cross-cloud coordination across Data Cloud, Agentforce, Commerce Cloud, and beyond to bring autonomous agents to GA — scaling from a 3-customer pilot → 100+ beta → 500+ GA accounts.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Architected "Brand Grounding" and "The Salesforce Brief Experience" trust &amp; context layers to ensure zero-bias AI outputs.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Mobilized a cross-functional tiger team via Alert Manager that eliminated support-org overhead — <span class="font-semibold text-ink dark:text-white">$6M/yr in operational savings</span>.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Owned pricing, packaging &amp; licensing for Einstein Co-Create, Einstein Copilot, and Agentforce; led the unified Einstein1 SKU transformation.</li>
+          </ul>
+          <p class="mt-5 font-semibold text-ink dark:text-slate-200">Senior Product Manager — Real-Time Messaging Platform <span class="font-normal text-sm text-ink/50 dark:text-slate-500">(2016 – 2019)</span></p>
+          <ul class="mt-3 space-y-2.5 text-ink/75 dark:text-slate-400 leading-relaxed">
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan/70"></span>Earned the <span class="font-semibold text-ink dark:text-white">2019 Salesforce Innovation Award</span> for a low-latency transactional platform with viral enterprise adoption.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan/70"></span>Migrated Salesforce Pardot onto the real-time engine, onboarding 8,000+ enterprise customers; powered MFA &amp; Vaccine Cloud.</li>
+          </ul>
+        </div>
+
+        <!-- Teradata -->
+        <div class="reveal relative pl-8 md:pl-12">
+          <span class="absolute -left-[7px] top-1.5 h-3.5 w-3.5 rounded-full bg-cyan ring-4 ring-cream dark:ring-canvas"></span>
+          <div class="flex flex-wrap items-baseline gap-x-3">
+            <h3 class="font-display font-700 text-2xl text-ink dark:text-white">Teradata</h3>
+            <span class="text-sm text-ink/50 dark:text-slate-500">2015 – 2017</span>
+          </div>
+          <p class="mt-1 font-semibold text-bronze dark:text-cyan">Product Manager &amp; Scrum Product Owner — Intellisphere Data Ingestion</p>
+          <ul class="mt-4 space-y-2.5 text-ink/75 dark:text-slate-400 leading-relaxed">
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan/70"></span>End-to-end vision &amp; GTM owner for Teradata Listener — an elastic, cloud-native microservices platform for real-time ingestion.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan/70"></span>Slashed big-data connection latency to under 5 minutes by abstracting Kafka, Confluent, ElasticDB &amp; Kubernetes into accessible REST services.</li>
+          </ul>
+        </div>
+
+        <!-- Roku -->
+        <div class="reveal relative pl-8 md:pl-12">
+          <span class="absolute -left-[7px] top-1.5 h-3.5 w-3.5 rounded-full bg-bronze dark:bg-brass ring-4 ring-cream dark:ring-canvas"></span>
+          <div class="flex flex-wrap items-baseline gap-x-3">
+            <h3 class="font-display font-700 text-2xl text-ink dark:text-white">Roku</h3>
+            <span class="text-sm text-ink/50 dark:text-slate-500">2015</span>
+          </div>
+          <p class="mt-1 font-semibold text-bronze dark:text-cyan">Product Software Partner Manager</p>
+          <ul class="mt-4 space-y-2.5 text-ink/75 dark:text-slate-400 leading-relaxed">
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-bronze/70 dark:bg-brass/70"></span>Coordinated software deployment for New Product Introduction across manufacturing, component &amp; brand partners in a fast-scaling streaming ecosystem.</li>
+          </ul>
+        </div>
+
+        <!-- AMD -->
+        <div class="reveal relative pl-8 md:pl-12">
+          <span class="absolute -left-[7px] top-1.5 h-3.5 w-3.5 rounded-full bg-violet ring-4 ring-cream dark:ring-canvas"></span>
+          <div class="flex flex-wrap items-baseline gap-x-3">
+            <h3 class="font-display font-700 text-2xl text-ink dark:text-white">AMD</h3>
+            <span class="text-sm text-ink/50 dark:text-slate-500">2007 – 2015</span>
+          </div>
+          <p class="mt-1 font-semibold text-bronze dark:text-cyan">Member of Technical Staff — SLT &amp; Burn-In Equipment Lead</p>
+          <ul class="mt-4 space-y-2.5 text-ink/75 dark:text-slate-400 leading-relaxed">
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Generated $3M in baseline savings via cost-to-coverage risk analysis, plus $750K in capex savings repurposing legacy testers for next-generation microprocessors.</li>
+            <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet/70"></span>Directed global manufacturing deployments across China, Malaysia &amp; Singapore; invented a voltage-controlled load emulation device catching a 10% hidden failure rate.</li>
+          </ul>
+          <p class="mt-3 text-sm text-ink/50 dark:text-slate-500">Earlier: Whirlpool Corporation · Motorola Solutions</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE IMPACT ============ -->
+  <section class="py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal max-w-2xl mb-12">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Trusted at scale</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">Powering the world's most demanding brands</h2>
+        <p class="mt-4 text-lg text-ink/70 dark:text-slate-400">Marquee enterprises whose mission-critical engagement runs on platforms I led — won, defended, and scaled.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">#1 consumer electronics retailer</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">North America</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A top U.S. brokerage</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Competitive win</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A leading global airline</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">High-risk marquee account</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A leading streaming service</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">High-throughput sending</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A global payments leader</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Inbound &amp; event services</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">Top-tier U.S. banks</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Anonymous-reply infrastructure</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">The world's largest pizza brand</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Platform stickiness</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A top U.S. mass retailer</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Cyber Week scale</p>
+        </div>
+        <div class="reveal tile rounded-xl border border-ink/10 dark:border-white/10 bg-white/50 dark:bg-surface px-5 py-6 text-center">
+          <p class="font-display font-600 text-ink dark:text-white">A major global game publisher</p><p class="text-xs text-ink/55 dark:text-slate-500 mt-1">Event notification services</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section id="testimonials" class="py-24 md:py-32 border-t border-ink/5 dark:border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal max-w-2xl mb-16">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Voices</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">What colleagues say</h2>
+        <p class="mt-4 text-lg text-ink/70 dark:text-slate-400">From engineers and managers who have worked alongside Allen across two decades.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 flex flex-col gap-5">
+          <svg class="h-7 w-7 text-violet/40 dark:text-violet/50 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15C5.9 10.5 5.5 12 5.5 13.6c0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.22-.88zm8.808 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.695-1.327-.825-.56-.13-1.07-.14-1.54-.03-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15-.9 1.35-1.3 2.85-1.3 4.45 0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.23-.88z"/></svg>
+          <p class="text-ink/80 dark:text-slate-300 leading-relaxed italic flex-1">
+            "Allen is technically adept, hardworking, and driven to deliver high quality results. In my observation, Allen has consistently elevated the level of quality and execution of the teams with whom he has worked. I would not hesitate to hire him."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-ink/5 dark:border-white/5">
+            <div class="h-10 w-10 rounded-full bg-violet/10 dark:bg-violet/20 grid place-items-center text-sm font-semibold text-violet dark:text-violet shrink-0">CB</div>
+            <div>
+              <p class="font-semibold text-sm text-ink dark:text-white">Chris Bonser</p>
+              <p class="text-xs text-ink/55 dark:text-slate-500">Senior Manager · Direct report relationship</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 flex flex-col gap-5">
+          <svg class="h-7 w-7 text-cyan/40 dark:text-cyan/50 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15C5.9 10.5 5.5 12 5.5 13.6c0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.22-.88zm8.808 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.695-1.327-.825-.56-.13-1.07-.14-1.54-.03-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15-.9 1.35-1.3 2.85-1.3 4.45 0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.23-.88z"/></svg>
+          <p class="text-ink/80 dark:text-slate-300 leading-relaxed italic flex-1">
+            "Allen is extremely sharp, hard-working, and people-oriented. Working with Allen is a very pleasant and insightful experience — his attention to detail and strong understanding of fundamentals helps come up with rock solid results."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-ink/5 dark:border-white/5">
+            <div class="h-10 w-10 rounded-full bg-cyan/10 dark:bg-cyan/20 grid place-items-center text-sm font-semibold text-cyan dark:text-cyan shrink-0">AK</div>
+            <div>
+              <p class="font-semibold text-sm text-ink dark:text-white">Abhijit Kar</p>
+              <p class="text-xs text-ink/55 dark:text-slate-500">Senior Software Engineer · Cross-team collaboration</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 flex flex-col gap-5">
+          <svg class="h-7 w-7 text-bronze/40 dark:text-brass/50 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15C5.9 10.5 5.5 12 5.5 13.6c0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.22-.88zm8.808 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.695-1.327-.825-.56-.13-1.07-.14-1.54-.03-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15-.9 1.35-1.3 2.85-1.3 4.45 0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.23-.88z"/></svg>
+          <p class="text-ink/80 dark:text-slate-300 leading-relaxed italic flex-1">
+            "Allen is skilled in technical project management working effectively with teams located in different geographies and with different disciplines. He is a personable and jovial engineer who pays close attention to details. I thoroughly enjoyed working with him."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-ink/5 dark:border-white/5">
+            <div class="h-10 w-10 rounded-full bg-bronze/10 dark:bg-brass/20 grid place-items-center text-sm font-semibold text-bronze dark:text-brass shrink-0">KC</div>
+            <div>
+              <p class="font-semibold text-sm text-ink dark:text-white">Kenneth Chia</p>
+              <p class="text-xs text-ink/55 dark:text-slate-500">Sr. Manager, Product Development Engineering · AMD</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 flex flex-col gap-5">
+          <svg class="h-7 w-7 text-violet/40 dark:text-violet/50 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15C5.9 10.5 5.5 12 5.5 13.6c0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.22-.88zm8.808 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.695-1.327-.825-.56-.13-1.07-.14-1.54-.03-.16-.95.1-1.95.76-3 .66-1.06 1.5-1.9 2.5-2.5l-1-1.73c-1.34.75-2.4 1.8-3.2 3.15-.9 1.35-1.3 2.85-1.3 4.45 0 1.13.27 2.07.8 2.82.54.75 1.27 1.13 2.2 1.13.87 0 1.6-.3 2.2-.9.6-.6.9-1.37.9-2.32v.32l-.23-.88z"/></svg>
+          <p class="text-ink/80 dark:text-slate-300 leading-relaxed italic flex-1">
+            "Adaptable, team player without blindly following the pack. Adept at blending the big picture with a conscientious application to the work at hand. Highly recommended."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-ink/5 dark:border-white/5">
+            <div class="h-10 w-10 rounded-full bg-violet/10 dark:bg-violet/20 grid place-items-center text-sm font-semibold text-violet dark:text-violet shrink-0">KB</div>
+            <div>
+              <p class="font-semibold text-sm text-ink dark:text-white">Kara B.</p>
+              <p class="text-xs text-ink/55 dark:text-slate-500">Embedded Systems · Senior colleague</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECOGNITION ============ -->
+  <section id="recognition" class="py-24 md:py-32 border-t border-ink/5 dark:border-white/5">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-12">
+      <div class="md:col-span-4 reveal">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Recognition</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-4xl text-ink dark:text-white leading-tight">Patents, honors &amp; credentials</h2>
+      </div>
+      <div class="md:col-span-8 reveal grid sm:grid-cols-2 gap-5">
+        <div class="rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="text-xs uppercase tracking-wider text-violet dark:text-violet font-semibold">Patent · Filed 2024</p>
+          <p class="mt-2 font-display font-600 text-ink dark:text-white">Machine-learning generation &amp; refinement of group messaging via generative language modeling</p>
+          <p class="mt-2 text-sm text-ink/55 dark:text-slate-500">US 2025-0086403 A1</p>
+        </div>
+        <div class="rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="text-xs uppercase tracking-wider text-cyan dark:text-cyan font-semibold">Patent · Filed 2023</p>
+          <p class="mt-2 font-display font-600 text-ink dark:text-white">Techniques for automatic subject-line generation</p>
+          <p class="mt-2 text-sm text-ink/55 dark:text-slate-500">US 20240303280 A1</p>
+        </div>
+        <div class="rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="text-xs uppercase tracking-wider text-bronze dark:text-brass font-semibold">Award · 2019</p>
+          <p class="mt-2 font-display font-600 text-ink dark:text-white">Salesforce Innovation Award</p>
+          <p class="mt-2 text-sm text-ink/55 dark:text-slate-500">Real-time transactional messaging platform</p>
+        </div>
+        <div class="rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="text-xs uppercase tracking-wider text-violet dark:text-violet font-semibold">Education</p>
+          <p class="mt-2 font-display font-600 text-ink dark:text-white">Purdue University — BSEE</p>
+          <p class="mt-2 text-sm text-ink/55 dark:text-slate-500">Semiconductors &amp; IC design · Eagle Scout</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="relative overflow-hidden py-24 md:py-32">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <p class="reveal font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Let's build what's next</p>
+      <h2 class="reveal mt-4 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">
+        Ready to extract real value<br class="hidden sm:block" /> from <span class="grad-accent">Agentic &amp; Generative AI?</span>
+      </h2>
+      <p class="reveal mt-6 text-lg text-ink/70 dark:text-slate-400">
+        Whether you're modernizing a platform, evaluating an AI strategy, or filling a leadership seat — let's talk.
+      </p>
+      <div class="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href="mailto:allen.hoem@gmail.com" class="inline-flex items-center gap-2 rounded-xl bg-ink dark:bg-white px-7 h-12 font-semibold text-white dark:text-canvas hover:translate-y-[-2px] transition-transform">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
+          allen.hoem@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/allenhoem" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 px-7 h-12 font-semibold text-ink dark:text-white hover:border-violet/60 dark:hover:border-cyan/60 transition-colors">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18h2.67V9.5zM7 6.13a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18v-4.67c0-2.5-1.34-3.66-3.12-3.66a2.69 2.69 0 0 0-2.44 1.34V9.5h-2.66V18h2.66v-4.5c0-1.19.23-2.34 1.7-2.34 1.45 0 1.47 1.36 1.47 2.42V18h2.39z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <p class="reveal mt-8 text-sm text-ink/50 dark:text-slate-500">Greater Indianapolis Area</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-ink/5 dark:border-white/5 py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink/50 dark:text-slate-500">
+      <p class="font-display"><span class="text-ink dark:text-white font-600">Allen R. Hoem</span> — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions</p>
+      <p>© <span id="year"></span> · Built for the future of AI</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      root.classList.toggle('dark');
+      try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    });
+
+    // Follow system changes when user hasn't set a manual preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      try { if (localStorage.getItem('theme')) return; } catch (err) {}
+      document.documentElement.classList.toggle('dark', e.matches);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+    // Animated counters
+    function animateCount(el) {
+      var target = parseFloat(el.getAttribute('data-target'));
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+      var comma  = el.getAttribute('data-comma');
+      var dur = 1400, start = null;
+      function fmt(n) {
+        n = Math.round(n);
+        if (comma) n = n.toLocaleString('en-US');
+        return prefix + n + suffix;
+      }
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * eased);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(target);
+      }
+      requestAnimationFrame(step);
+    }
+    var countIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { animateCount(en.target); countIO.unobserve(en.target); } });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count').forEach(function (el) { countIO.observe(el); });
+  </script>
+</body>
+</html>

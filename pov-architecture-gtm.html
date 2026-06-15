@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture &amp; GTM Coexistence — Allen R. Hoem</title>
+  <meta name="description" content="Allen R. Hoem's point of view on why architecture and go-to-market are one conversation: enterprises demand flexibility and scale, the product leader must believe in the design, SLOs come before SLAs, and composable architecture is what makes GTM fast." />
+  <meta name="author" content="Allen R. Hoem" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Architecture &amp; GTM Coexistence — Allen R. Hoem" />
+  <meta property="og:description" content="Architecture and go-to-market are one conversation. The leader who can't tell the architecture story can't tell the value story." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink:     '#0F1E3D',
+            bronze:  '#B08322',
+            brass:   '#C99A3A',
+            violet:  '#7C5CFF',
+            cyan:    '#22D3EE',
+            canvas:  '#0A0A0F',
+            surface: '#14141E',
+            elevated:'#1B1B27',
+            cream:   '#FBFAF7',
+            paper:   '#F2F0EA'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif:   ['Fraunces', 'ui-serif', 'Georgia', 'serif']
+          }
+        }
+      }
+    };
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-serif { font-family: 'Fraunces', serif; }
+
+    .grad-accent {
+      background: linear-gradient(100deg, #7C5CFF 0%, #22D3EE 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .dark .grad-accent { background: linear-gradient(100deg, #9B82FF 0%, #46E0F5 100%); -webkit-background-clip: text; background-clip: text; }
+
+    .hero-grid {
+      background-image: radial-gradient(rgba(124,92,255,0.10) 1px, transparent 1px);
+      background-size: 28px 28px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+    }
+    .hero-glow { background: radial-gradient(ellipse 50% 45% at 50% 0%, rgba(124,92,255,0.18), transparent 70%); }
+    .dark .hero-glow { background: radial-gradient(ellipse 55% 50% at 50% 0%, rgba(124,92,255,0.22), transparent 70%); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .tile { transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s; }
+    .tile:hover { transform: translateY(-4px); }
+
+    ::selection { background: rgba(124,92,255,.30); }
+    .dark ::selection { background: rgba(34,211,238,.30); }
+
+    .navlink { position: relative; }
+    .navlink::after { content:''; position:absolute; left:0; bottom:-3px; height:1.5px; width:0; background: currentColor; transition: width .3s ease; }
+    .navlink:hover::after { width:100%; }
+
+    .prose-pov p { line-height: 1.7; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1 !important; transform:none !important; transition:none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body class="bg-cream dark:bg-canvas text-ink/90 dark:text-slate-300 antialiased transition-colors duration-300">
+
+  <!-- ============ NAV ============ -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-cream/80 dark:bg-canvas/70 border-b border-ink/5 dark:border-white/5 transition-colors">
+    <nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="font-display font-700 text-lg tracking-tight text-ink dark:text-white">
+        Allen<span class="grad-accent">.</span>Hoem
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html#pillars" class="navlink hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 dark:text-slate-400 hover:text-ink dark:hover:text-white transition-colors">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+          Back to pillars
+        </a>
+        <button id="themeToggle" aria-label="Toggle light and dark mode"
+          class="h-9 w-9 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/70 dark:text-slate-300 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36-1.42-1.42M7.05 7.05 5.64 5.64m12.72 0-1.42 1.42M7.05 16.95l-1.41 1.41M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden pt-32 pb-14 md:pt-40 md:pb-20">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="absolute inset-0 hero-grid pointer-events-none opacity-70"></div>
+    <div class="relative max-w-4xl mx-auto px-6">
+      <p class="reveal font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Point of view · Pillar 04</p>
+      <h1 class="reveal mt-4 font-display font-700 tracking-tight text-ink dark:text-white text-4xl md:text-6xl leading-[1.05]">
+        Architecture &amp; <span class="grad-accent">GTM Coexistence</span>
+      </h1>
+      <p class="reveal mt-6 max-w-2xl font-serif text-xl md:text-2xl italic text-ink dark:text-white leading-snug">
+        Architecture and go-to-market are one conversation — the leader who can't tell the architecture story can't tell the value story.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ BODY ============ -->
+  <article class="prose-pov max-w-4xl mx-auto px-6 pb-16 space-y-12 text-lg text-ink/75 dark:text-slate-400">
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">You can't sell what you don't understand</h2>
+      <p>
+        A product leader has to know — deeply — how the thing is actually built. Not to do the engineering, but because
+        the architecture <em>is</em> the value story. Why is this fast? Why is it safe? Why won't it buckle at your
+        volume? Why is it built this intelligently? You cannot carry those answers into a Fortune 500 conversation if the
+        whole system is a black box to you. The credibility of the pitch is downstream of how well you understand the
+        design.
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">You also have to believe in it</h2>
+      <p>
+        This goes beyond knowledge — it's conviction. A product manager has to <span class="font-semibold text-ink dark:text-white">believe
+        in the technical design</span>, because if it fails, the customer and the field teams won't go hunting for an
+        engineer. They'll come to you for answers. When you've put your name on the architecture publicly, you've taken
+        on the responsibility for it. That's a feature, not a bug: it forces you to pressure-test the technical bet
+        before you ever stand on a stage and stake the company's reputation on it.
+      </p>
+    </div>
+
+    <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 space-y-4">
+      <h2 class="font-display font-600 text-2xl text-ink dark:text-white">SLOs before SLAs</h2>
+      <p>
+        Product leaders forget service-level objectives at their peril. You have to know your <span class="font-semibold text-ink dark:text-white">SLOs</span>
+        — the latency, availability, and quality targets the system actually holds to — before you ever decide whether,
+        and how, to commit to a contractual <span class="font-semibold text-ink dark:text-white">SLA</span>. An SLA is a
+        promise with teeth; making it without a clear-eyed read on your SLOs is how you turn a marquee win into a
+        penalty clause. I learned this in the most demanding environment there is: real-time transactional messaging,
+        where I engineered an Active-Active high-availability framework precisely because the objectives had to be met
+        before the agreements could be signed.
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">Flexible, composable architecture <span class="font-serif italic font-400 grad-accent">is</span> the GTM engine</h2>
+      <p>
+        Enterprises demand two things above all else: <span class="font-semibold text-ink dark:text-white">flexibility
+        and scalability.</span> If a product is a black box, or it constrains how they work, they will not stick around
+        long enough to find out whether it's any good. A strong, scalable, composable architecture isn't just an
+        engineering virtue — it's what makes the go-to-market lifecycle fast, credible, and genuinely exciting.
+      </p>
+      <div class="rounded-2xl border border-violet/30 dark:border-cyan/30 bg-violet/5 dark:bg-cyan/[0.07] p-8">
+        <p class="font-display text-xs uppercase tracking-[0.16em] text-bronze dark:text-cyan/90 mb-3">Proof point</p>
+        <p class="text-base">
+          I demonstrated and POC'd, with a top global social media company, that our platform and agentic solution could
+          flex to <em>their</em> way of working — not the other way around. The result: their marketing lifecycle
+          collapsed from a <span class="font-semibold text-ink dark:text-white">two-week manual process down to just 48
+          hours.</span> That win came directly from the flexibility of the platform and the ability to take our
+          out-of-the-box agents and let the customer craft them into their own.
+        </p>
+        <p class="mt-5 font-display font-700 text-3xl text-ink dark:text-white">2 weeks → 48 hours <span class="text-bronze dark:text-cyan text-2xl">· 7× faster</span></p>
+      </div>
+      <p>
+        That's the whole thesis in one number. The architecture made the value real, and understanding the architecture
+        is what let me tell the story that closed it. They aren't two jobs. They're one.
+      </p>
+    </div>
+
+    <div class="reveal flex flex-wrap gap-2.5">
+      <span class="rounded-full border border-violet/30 dark:border-violet/40 bg-violet/5 dark:bg-violet/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">BSEE foundation — semiconductors &amp; IC design</span>
+      <span class="rounded-full border border-cyan/30 dark:border-cyan/40 bg-cyan/5 dark:bg-cyan/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">Active-Active HA messaging</span>
+      <span class="rounded-full border border-cyan/30 dark:border-cyan/40 bg-cyan/5 dark:bg-cyan/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">Composable, OOTB-to-custom agents</span>
+      <span class="rounded-full border border-bronze/40 dark:border-brass/40 bg-bronze/5 dark:bg-brass/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">I build, not just strategize</span>
+    </div>
+
+  </article>
+
+  <!-- ============ CTA ============ -->
+  <section class="relative overflow-hidden py-20 border-t border-ink/5 dark:border-white/5">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <h2 class="reveal font-display font-700 text-2xl md:text-4xl text-ink dark:text-white leading-tight">
+        Need architecture and GTM to pull together? <span class="grad-accent">Let's talk.</span>
+      </h2>
+      <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="index.html#contact" class="inline-flex items-center gap-2 rounded-xl bg-ink dark:bg-white px-7 h-12 font-semibold text-white dark:text-canvas hover:translate-y-[-2px] transition-transform">
+          Let's talk AI strategy
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a href="index.html#pillars" class="inline-flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 px-7 h-12 font-semibold text-ink dark:text-white hover:border-violet/60 dark:hover:border-cyan/60 transition-colors">
+          Explore the other pillars
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-ink/5 dark:border-white/5 py-8">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink/50 dark:text-slate-500">
+      <p class="font-display"><span class="text-ink dark:text-white font-600">Allen R. Hoem</span> — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions</p>
+      <p>© <span id="year"></span> · Built for the future of AI</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      root.classList.toggle('dark');
+      try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      try { if (localStorage.getItem('theme')) return; } catch (err) {}
+      document.documentElement.classList.toggle('dark', e.matches);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaling for Monetization — Allen R. Hoem</title>
+  <meta name="description" content="Allen R. Hoem's point of view on scaling AI products for monetization: launch motions, why speed is the strategy, the 'vibe-vs-buy' bar, and pricing at the appropriate scale instead of capping the line of business." />
+  <meta name="author" content="Allen R. Hoem" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Scaling for Monetization — Allen R. Hoem" />
+  <meta property="og:description" content="In AI, speed is the strategy and usage pricing alone is a trap. How I monetize agentic products at the appropriate scale." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink:     '#0F1E3D',
+            bronze:  '#B08322',
+            brass:   '#C99A3A',
+            violet:  '#7C5CFF',
+            cyan:    '#22D3EE',
+            canvas:  '#0A0A0F',
+            surface: '#14141E',
+            elevated:'#1B1B27',
+            cream:   '#FBFAF7',
+            paper:   '#F2F0EA'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif:   ['Fraunces', 'ui-serif', 'Georgia', 'serif']
+          }
+        }
+      }
+    };
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-serif { font-family: 'Fraunces', serif; }
+
+    .grad-accent {
+      background: linear-gradient(100deg, #7C5CFF 0%, #22D3EE 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .dark .grad-accent { background: linear-gradient(100deg, #9B82FF 0%, #46E0F5 100%); -webkit-background-clip: text; background-clip: text; }
+
+    .hero-grid {
+      background-image: radial-gradient(rgba(124,92,255,0.10) 1px, transparent 1px);
+      background-size: 28px 28px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+    }
+    .hero-glow { background: radial-gradient(ellipse 50% 45% at 50% 0%, rgba(124,92,255,0.18), transparent 70%); }
+    .dark .hero-glow { background: radial-gradient(ellipse 55% 50% at 50% 0%, rgba(124,92,255,0.22), transparent 70%); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .tile { transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s; }
+    .tile:hover { transform: translateY(-4px); }
+
+    ::selection { background: rgba(124,92,255,.30); }
+    .dark ::selection { background: rgba(34,211,238,.30); }
+
+    .navlink { position: relative; }
+    .navlink::after { content:''; position:absolute; left:0; bottom:-3px; height:1.5px; width:0; background: currentColor; transition: width .3s ease; }
+    .navlink:hover::after { width:100%; }
+
+    .prose-pov p { line-height: 1.7; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1 !important; transform:none !important; transition:none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body class="bg-cream dark:bg-canvas text-ink/90 dark:text-slate-300 antialiased transition-colors duration-300">
+
+  <!-- ============ NAV ============ -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-cream/80 dark:bg-canvas/70 border-b border-ink/5 dark:border-white/5 transition-colors">
+    <nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="font-display font-700 text-lg tracking-tight text-ink dark:text-white">
+        Allen<span class="grad-accent">.</span>Hoem
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html#pillars" class="navlink hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 dark:text-slate-400 hover:text-ink dark:hover:text-white transition-colors">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+          Back to pillars
+        </a>
+        <button id="themeToggle" aria-label="Toggle light and dark mode"
+          class="h-9 w-9 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/70 dark:text-slate-300 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36-1.42-1.42M7.05 7.05 5.64 5.64m12.72 0-1.42 1.42M7.05 16.95l-1.41 1.41M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden pt-32 pb-14 md:pt-40 md:pb-20">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="absolute inset-0 hero-grid pointer-events-none opacity-70"></div>
+    <div class="relative max-w-4xl mx-auto px-6">
+      <p class="reveal font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Point of view · Pillar 02</p>
+      <h1 class="reveal mt-4 font-display font-700 tracking-tight text-ink dark:text-white text-4xl md:text-6xl leading-[1.05]">
+        Scaling for <span class="grad-accent">Monetization</span>
+      </h1>
+      <p class="reveal mt-6 max-w-2xl font-serif text-xl md:text-2xl italic text-ink dark:text-white leading-snug">
+        In AI, speed is the strategy — and usage pricing alone is a trap.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ BODY ============ -->
+  <article class="prose-pov max-w-4xl mx-auto px-6 pb-16 space-y-12 text-lg text-ink/75 dark:text-slate-400">
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">Pick a launch motion — then move faster than feels comfortable</h2>
+      <p>
+        Every AI product launch is a bet on how you'll learn. The three motions I reach for each buy a different kind of
+        signal, at a different cost:
+      </p>
+      <div class="overflow-x-auto rounded-2xl border border-ink/10 dark:border-white/10">
+        <table class="w-full text-left text-base">
+          <thead class="bg-ink/[0.03] dark:bg-white/[0.04] font-display text-ink dark:text-white">
+            <tr>
+              <th class="px-5 py-4 font-600">Motion</th>
+              <th class="px-5 py-4 font-600">What it buys you</th>
+              <th class="px-5 py-4 font-600">What it costs you</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink/10 dark:divide-white/10">
+            <tr>
+              <td class="px-5 py-4 font-semibold text-ink dark:text-white">Closed pilot</td>
+              <td class="px-5 py-4">Deep, high-trust signal from a handful of design partners; safe to be rough.</td>
+              <td class="px-5 py-4">Slow; tiny N; you risk over-fitting to a few loud voices.</td>
+            </tr>
+            <tr>
+              <td class="px-5 py-4 font-semibold text-ink dark:text-white">Open beta</td>
+              <td class="px-5 py-4">Volume signal and market momentum; surfaces use-cases you never imagined.</td>
+              <td class="px-5 py-4">Support load; reputational risk if the experience is half-baked.</td>
+            </tr>
+            <tr>
+              <td class="px-5 py-4 font-semibold text-ink dark:text-white">A/B testing</td>
+              <td class="px-5 py-4">Causal proof of what drives value — and what people will actually pay for.</td>
+              <td class="px-5 py-4">Needs real traffic and clean instrumentation before it's trustworthy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        I've run the full arc in practice — the Campaign Creation Agent went from a 3-customer closed pilot, to a 100+
+        customer beta, to 500+ GA accounts. Each stage was deliberately a different question: <em>Does it work? Does it
+        generalize? Will they pay?</em>
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">Why the urgency is real</h2>
+      <p>
+        The reason you must move faster than ever isn't hype — it's that the model itself is no longer the moat. When
+        every competitor can buy the same frontier models and the same tooling, the differentiator collapses onto how
+        fast you learn and how well you apply your own context. Harvard Business Review put it cleanly:
+      </p>
+      <blockquote class="font-serif text-xl md:text-2xl italic text-ink dark:text-white leading-snug border-l-2 border-bronze dark:border-cyan pl-6">
+        "When everyone has access to the same AI models, the same AI-enabled tools, and the same vendor ecosystem,
+        organizational context becomes the differentiator."
+        <span class="block mt-3 not-italic font-sans text-sm text-ink/55 dark:text-slate-500">— Rohan Narayana Murty &amp; Ravi Kumar S, <a href="https://hbr.org/2026/02/when-every-company-can-use-the-same-ai-models-context-becomes-a-competitive-advantage" target="_blank" rel="noopener" class="underline decoration-bronze/40 dark:decoration-cyan/40 underline-offset-4 hover:decoration-bronze dark:hover:decoration-cyan">Harvard Business Review</a>, Feb 2026</span>
+      </blockquote>
+      <p>
+        Early pilots and tests aren't just product validation — they're how you find your willingness-to-pay signal and
+        the specific slice of value customers find compelling enough to open the wallet for.
+      </p>
+    </div>
+
+    <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 space-y-5">
+      <h2 class="font-display font-600 text-2xl text-ink dark:text-white">The race to the bottom: vibe-vs-buy</h2>
+      <p>
+        Here's the uncomfortable part. AI and agents are a race to the bottom, and monetizing raw <em>usage</em> is not
+        enough. The old "build vs. buy" calculus has become <span class="font-semibold text-ink dark:text-white">"vibe vs.
+        buy"</span> — it is now so easy to generate working software that an SI, a third party, or even a motivated power
+        user can stand up a passable version of your feature in a weekend.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <div class="flex-1 min-w-[180px] rounded-xl border border-cyan/30 dark:border-cyan/40 bg-cyan/5 dark:bg-cyan/10 p-5 text-center">
+          <p class="font-display font-700 text-3xl text-ink dark:text-white">35%</p>
+          <p class="mt-1 text-sm">of teams have already replaced at least one SaaS tool with a custom build</p>
+        </div>
+        <div class="flex-1 min-w-[180px] rounded-xl border border-violet/30 dark:border-violet/40 bg-violet/5 dark:bg-violet/10 p-5 text-center">
+          <p class="font-display font-700 text-3xl text-ink dark:text-white">78%</p>
+          <p class="mt-1 text-sm">expect to build more of their own tools in 2026</p>
+        </div>
+      </div>
+      <p class="text-sm text-ink/55 dark:text-slate-500">Source: <a href="https://retool.com/blog/ai-build-vs-buy-report-2026" target="_blank" rel="noopener" class="underline decoration-ink/30 dark:decoration-white/30 underline-offset-4 hover:decoration-violet dark:hover:decoration-cyan">Retool, "The build vs. buy shift," 2026</a></p>
+      <p>
+        If someone can vibe-code it, your usage meter won't hold. The only durable position is an outcome and value set
+        so compelling — backed by governance, scale, and trust — that it's <span class="font-semibold text-ink dark:text-white">not
+        worth anyone's time to rebuild it themselves.</span>
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">My pricing stance: monetize at the appropriate scale</h2>
+      <p>
+        Buyers — especially the C-suite — do not like committing to an ecosystem where the quantities are unknown. I hear
+        a version of this in nearly every deal:
+      </p>
+      <blockquote class="font-serif text-lg md:text-xl italic text-ink dark:text-white leading-snug border-l-2 border-bronze dark:border-cyan pl-6">
+        "I don't want to put agent limits on my lines of business — but how do I avoid overages, or runaway scaling, or
+        getting surprised as we discover new use-cases?"
+      </blockquote>
+      <p>
+        That's a fair concern, and it's usually met with unfair positioning. Shifting hard-right to full outcome-based
+        pricing sounds elegant, but it's genuinely difficult: outcomes are caveated and different for every single
+        customer. The answer lives in the middle — <span class="font-semibold text-ink dark:text-white">monetize at the
+        appropriate scale.</span>
+      </p>
+      <ol class="space-y-3 list-none">
+        <li class="flex gap-3"><span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span><span class="font-semibold text-ink dark:text-white">Give LOB leaders runway.</span> Let them prototype and build rapidly, without limits, so they can actually discover where the value is.</span></li>
+        <li class="flex gap-3"><span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span><span class="font-semibold text-ink dark:text-white">Pressure-test the patterns.</span> Watch where in the platform the new agent behaviors actually unlock value at scale.</span></li>
+        <li class="flex gap-3"><span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span><span class="font-semibold text-ink dark:text-white">Then price where it counts.</span> Meter the things the agent uses most often, and the agent itself — not a punitive cap on the customer's ambition.</span></li>
+      </ol>
+      <p>
+        It's the same discipline I applied to the real packaging decisions on Agentforce for Marketing Cloud — onboarding
+        GPT/Prompt licenses with Office-of-the-COO approval, building Finance-approved cost-to-serve models, and leading
+        the migration off legacy Einstein Request entitlements to Flex Credits. Packaging is where strategy meets the
+        invoice; get it wrong and the best product in the category still stalls.
+      </p>
+    </div>
+
+  </article>
+
+  <!-- ============ CTA ============ -->
+  <section class="relative overflow-hidden py-20 border-t border-ink/5 dark:border-white/5">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <h2 class="reveal font-display font-700 text-2xl md:text-4xl text-ink dark:text-white leading-tight">
+        Figuring out how to price &amp; scale AI? <span class="grad-accent">Let's talk.</span>
+      </h2>
+      <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="index.html#contact" class="inline-flex items-center gap-2 rounded-xl bg-ink dark:bg-white px-7 h-12 font-semibold text-white dark:text-canvas hover:translate-y-[-2px] transition-transform">
+          Let's talk AI strategy
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a href="index.html#pillars" class="inline-flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 px-7 h-12 font-semibold text-ink dark:text-white hover:border-violet/60 dark:hover:border-cyan/60 transition-colors">
+          Explore the other pillars
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-ink/5 dark:border-white/5 py-8">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink/50 dark:text-slate-500">
+      <p class="font-display"><span class="text-ink dark:text-white font-600">Allen R. Hoem</span> — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions</p>
+      <p>© <span id="year"></span> · Built for the future of AI</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      root.classList.toggle('dark');
+      try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      try { if (localStorage.getItem('theme')) return; } catch (err) {}
+      document.documentElement.classList.toggle('dark', e.matches);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  </script>
+</body>
+</html>

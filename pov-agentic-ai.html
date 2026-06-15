@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pioneering Agentic AI — Allen R. Hoem</title>
+  <meta name="description" content="Allen R. Hoem's point of view on pioneering Agentic AI: agents are automation with reasoning, why product strategy must remove friction for adoption, and where machine learning still beats the LLM." />
+  <meta name="author" content="Allen R. Hoem" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Pioneering Agentic AI — Allen R. Hoem" />
+  <meta property="og:description" content="Agents are automation with reasoning. How I pioneer agentic products — removing friction, knowing the limits, and keeping a human in the loop." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink:     '#0F1E3D',
+            bronze:  '#B08322',
+            brass:   '#C99A3A',
+            violet:  '#7C5CFF',
+            cyan:    '#22D3EE',
+            canvas:  '#0A0A0F',
+            surface: '#14141E',
+            elevated:'#1B1B27',
+            cream:   '#FBFAF7',
+            paper:   '#F2F0EA'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif:   ['Fraunces', 'ui-serif', 'Georgia', 'serif']
+          }
+        }
+      }
+    };
+    // Apply theme before paint to avoid flash (system default, with manual override)
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-serif { font-family: 'Fraunces', serif; }
+
+    .grad-accent {
+      background: linear-gradient(100deg, #7C5CFF 0%, #22D3EE 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .dark .grad-accent { background: linear-gradient(100deg, #9B82FF 0%, #46E0F5 100%); -webkit-background-clip: text; background-clip: text; }
+
+    .hero-grid {
+      background-image: radial-gradient(rgba(124,92,255,0.10) 1px, transparent 1px);
+      background-size: 28px 28px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 35%, transparent 75%);
+    }
+    .hero-glow { background: radial-gradient(ellipse 50% 45% at 50% 0%, rgba(124,92,255,0.18), transparent 70%); }
+    .dark .hero-glow { background: radial-gradient(ellipse 55% 50% at 50% 0%, rgba(124,92,255,0.22), transparent 70%); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .tile { transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s; }
+    .tile:hover { transform: translateY(-4px); }
+
+    ::selection { background: rgba(124,92,255,.30); }
+    .dark ::selection { background: rgba(34,211,238,.30); }
+
+    .navlink { position: relative; }
+    .navlink::after { content:''; position:absolute; left:0; bottom:-3px; height:1.5px; width:0; background: currentColor; transition: width .3s ease; }
+    .navlink:hover::after { width:100%; }
+
+    .prose-pov p { line-height: 1.7; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity:1 !important; transform:none !important; transition:none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body class="bg-cream dark:bg-canvas text-ink/90 dark:text-slate-300 antialiased transition-colors duration-300">
+
+  <!-- ============ NAV ============ -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-cream/80 dark:bg-canvas/70 border-b border-ink/5 dark:border-white/5 transition-colors">
+    <nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="font-display font-700 text-lg tracking-tight text-ink dark:text-white">
+        Allen<span class="grad-accent">.</span>Hoem
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html#pillars" class="navlink hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 dark:text-slate-400 hover:text-ink dark:hover:text-white transition-colors">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+          Back to pillars
+        </a>
+        <button id="themeToggle" aria-label="Toggle light and dark mode"
+          class="h-9 w-9 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/70 dark:text-slate-300 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36-1.42-1.42M7.05 7.05 5.64 5.64m12.72 0-1.42 1.42M7.05 16.95l-1.41 1.41M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden pt-32 pb-14 md:pt-40 md:pb-20">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="absolute inset-0 hero-grid pointer-events-none opacity-70"></div>
+    <div class="relative max-w-4xl mx-auto px-6">
+      <p class="reveal font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Point of view · Pillar 01</p>
+      <h1 class="reveal mt-4 font-display font-700 tracking-tight text-ink dark:text-white text-4xl md:text-6xl leading-[1.05]">
+        Pioneering <span class="grad-accent">Agentic AI</span>
+      </h1>
+      <p class="reveal mt-6 max-w-2xl font-serif text-xl md:text-2xl italic text-ink dark:text-white leading-snug">
+        Agents are automation with reasoning — the human no longer builds the automation, they supervise it.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ BODY ============ -->
+  <article class="prose-pov max-w-4xl mx-auto px-6 pb-16 space-y-12 text-lg text-ink/75 dark:text-slate-400">
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">The shift I've been building toward</h2>
+      <p>
+        For most of the last two decades, "automation" meant a human painstakingly encoding every branch, every rule,
+        every exception — and then maintaining that brittle logic forever. Agentic AI breaks that contract. An agent is
+        automation that can <span class="font-semibold text-ink dark:text-white">reason</span> about an unfamiliar
+        situation and act, which means the human is no longer required to <em>build</em> the automation. The job changes
+        from authoring the workflow to <span class="font-semibold text-ink dark:text-white">directing and supervising</span>
+        a system that figures out the workflow itself.
+      </p>
+      <p>
+        That's the lens I brought to Salesforce's first generative AI experience for Marketing Cloud, and to the
+        multi-agent interoperability strategy I bootstrapped after it. It reframes what a product even is: not a fixed
+        set of features, but a capable collaborator the customer learns to delegate to.
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">The pattern moves faster than the roadmap</h2>
+      <p>
+        The hardest truth about agentic products is that user behavior is changing month to month. The way someone
+        prompted, trusted, and chained agents a quarter ago is not how they do it today. A traditional roadmap — scoped,
+        committed, shipped two releases later — is structurally too slow for a pattern that mutates this fast.
+      </p>
+      <p>
+        So my product strategy optimizes for one thing above almost all else:
+        <span class="font-semibold text-ink dark:text-white">removing friction so adoption can outrun the change.</span>
+        Two concrete bets make that real:
+      </p>
+      <div class="grid sm:grid-cols-2 gap-4 pt-1">
+        <div class="rounded-xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="font-display font-600 text-ink dark:text-white">A visual experience inside the conversation</p>
+          <p class="mt-2 text-base">
+            Marketers think visually — a text-only chat is a friction wall. I brought a rich visual experience into
+            otherwise purely conversational agents for building campaigns, so the agent meets people in the medium they
+            actually work in (the thinking behind aligning to A2UI declarative rendering).
+          </p>
+        </div>
+        <div class="rounded-xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-6">
+          <p class="font-display font-600 text-ink dark:text-white">Activation on Day 1, not month six</p>
+          <p class="mt-2 text-base">
+            I made activating the agent a core part of the Day-1 experience in Marketing Cloud — not a feature buried
+            three menus deep that a customer stumbles onto months later. If adoption has to outrun the change, the agent
+            has to be the first thing you meet, not the last.
+          </p>
+        </div>
+      </div>
+      <p>
+        The same instinct is why I pushed Model Context Protocol so early — authoring the vision for both an MCP client
+        (Agentforce consuming external tools and context) and Salesforce-hosted MCP servers (exposing Marketing Cloud to
+        external agents like Claude and ChatGPT). Interoperability <em>is</em> friction removal: you meet agents — and
+        the developers building on them — where they already are, instead of forcing them onto your island.
+      </p>
+    </div>
+
+    <div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-8 space-y-4">
+      <h2 class="font-display font-600 text-2xl text-ink dark:text-white">Agents are not the end-all</h2>
+      <p>
+        I'm a pioneer of this technology, and I'll still say it plainly: agents are not the answer to everything.
+        Reasoning is not omniscience. There is a whole class of problems — finding subtle patterns across enormous
+        volumes of data, where the signal is statistical rather than linguistic — that <span class="font-semibold text-ink dark:text-white">both
+        humans and LLMs are genuinely bad at.</span>
+      </p>
+      <p>
+        That is exactly where classic machine learning, vectorization, and embeddings continue to earn their place. The
+        sophisticated systems aren't "LLM or nothing" — they're an orchestra: ML surfaces the patterns at scale, vector
+        search grounds the model in what's true, and the agent reasons and acts on top. Knowing which layer should own
+        which job is the difference between a demo and a platform.
+      </p>
+    </div>
+
+    <div class="reveal space-y-5">
+      <h2 class="font-display font-600 text-2xl md:text-3xl text-ink dark:text-white">Reasoning still needs a keeper</h2>
+      <p>
+        Delegating the <em>building</em> of automation to AI does not mean delegating <em>accountability</em>. Agentic
+        systems demand oversight, maintenance, and governance — they drift, they encounter inputs no one anticipated,
+        and they will confidently do the wrong thing if nothing is watching. Pioneering responsibly means designing the
+        guardrails and the human-in-the-loop checkpoints into the product from day one, not bolting them on after the
+        first incident. <a href="pov-trust.html" class="font-semibold text-violet dark:text-cyan underline decoration-violet/30 dark:decoration-cyan/30 underline-offset-4 hover:decoration-violet dark:hover:decoration-cyan">That's a whole discipline of its own →</a>
+      </p>
+    </div>
+
+    <div class="reveal flex flex-wrap gap-2.5">
+      <span class="rounded-full border border-violet/30 dark:border-violet/40 bg-violet/5 dark:bg-violet/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">First GenAI experience for Marketing Cloud</span>
+      <span class="rounded-full border border-violet/30 dark:border-violet/40 bg-violet/5 dark:bg-violet/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">MCP client + Salesforce-hosted servers</span>
+      <span class="rounded-full border border-cyan/30 dark:border-cyan/40 bg-cyan/5 dark:bg-cyan/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">A2A / A2UI interoperability</span>
+      <span class="rounded-full border border-cyan/30 dark:border-cyan/40 bg-cyan/5 dark:bg-cyan/10 px-4 py-2 text-sm font-medium text-ink/80 dark:text-slate-200">Connections keynote — 4 years running</span>
+    </div>
+
+  </article>
+
+  <!-- ============ CTA ============ -->
+  <section class="relative overflow-hidden py-20 border-t border-ink/5 dark:border-white/5">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto px-6 text-center">
+      <h2 class="reveal font-display font-700 text-2xl md:text-4xl text-ink dark:text-white leading-tight">
+        Building something agentic? <span class="grad-accent">Let's talk strategy.</span>
+      </h2>
+      <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="index.html#contact" class="inline-flex items-center gap-2 rounded-xl bg-ink dark:bg-white px-7 h-12 font-semibold text-white dark:text-canvas hover:translate-y-[-2px] transition-transform">
+          Let's talk AI strategy
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a href="index.html#pillars" class="inline-flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 px-7 h-12 font-semibold text-ink dark:text-white hover:border-violet/60 dark:hover:border-cyan/60 transition-colors">
+          Explore the other pillars
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-ink/5 dark:border-white/5 py-8">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink/50 dark:text-slate-500">
+      <p class="font-display"><span class="text-ink dark:text-white font-600">Allen R. Hoem</span> — Product Leader, Agentic AI &amp; High-Scale Enterprise Solutions</p>
+      <p>© <span id="year"></span> · Built for the future of AI</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      root.classList.toggle('dark');
+      try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      try { if (localStorage.getItem('theme')) return; } catch (err) {}
+      document.documentElement.classList.toggle('dark', e.matches);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  </script>
+</body>
+</html>

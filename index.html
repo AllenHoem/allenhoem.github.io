@@ -639,8 +639,9 @@
     document.querySelectorAll('.count').forEach(function (el) { countIO.observe(el); });
   </script>
 
+  <script src="experience.js"></script>
   <script>
-    // Experience timeline renderer — reads experience.json, builds timeline HTML
+    // Experience timeline renderer — data loaded from experience.js (EXPERIENCE_DATA)
     (function () {
       var colorMap = {
         violet: { node: 'bg-violet', dot: 'bg-violet/70' },
@@ -685,15 +686,9 @@
           + '</div>';
       }
 
-      fetch('experience.json')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var container = document.getElementById('experience-timeline');
-          container.innerHTML = data.map(buildEntry).join('');
-          // Register new .reveal nodes with the existing IntersectionObserver
-          container.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-        })
-        .catch(function (err) { console.error('Failed to load experience.json', err); });
+      var container = document.getElementById('experience-timeline');
+      container.innerHTML = EXPERIENCE_DATA.map(buildEntry).join('');
+      container.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
     })();
   </script>
 </body>

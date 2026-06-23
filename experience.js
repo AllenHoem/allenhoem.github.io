@@ -1,4 +1,4 @@
-[
+var EXPERIENCE_DATA = [
   {
     "company": "Salesforce",
     "dates": "Nov 2016 – Present",
@@ -69,4 +69,4 @@
     ],
     "footer": "Earlier: Whirlpool Corporation · Motorola Solutions"
   }
-]
+];

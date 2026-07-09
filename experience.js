@@ -31,7 +31,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "Teradata",
     "dates": "2015 – 2017",
-    "color": "td-orange",
+    "color": "tdorange",
     "roles": [
       {
         "title": "Product Manager & Scrum Product Owner — Intellisphere Data Ingestion",
@@ -45,7 +45,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "Roku",
     "dates": "2015",
-    "color": "roku-purple",
+    "color": "rokupurple",
     "roles": [
       {
         "title": "Product Software Partner Manager",
@@ -58,7 +58,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "AMD",
     "dates": "2007 – 2015",
-    "color": "amd-red",
+    "color": "amdred",
     "roles": [
       {
         "title": "Member of Technical Staff — SLT & Burn-In Equipment Lead",

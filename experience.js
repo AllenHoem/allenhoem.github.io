@@ -2,11 +2,12 @@ var EXPERIENCE_DATA = [
   {
     "company": "Salesforce",
     "dates": "Nov 2016 – Present",
-    "color": "violet",
+    "color": "cyan",
     "roles": [
       {
         "title": "Director of Product Management — Marketing Cloud & Agentforce",
         "bullets": [
+          "Led agentic strategy and interaction patterns for Marketing Goals Agent through vibe-coded, high-fidelity concept testing, executive customer briefings, and rapid weekly check-points with executive leadership.  The Marketing Goals agent combines agentic marketing resource management, creative and strategy briefing, with customer knowledge grounding to autonomously plan, publish, and optimize marketing campaigns in real-time using generative content, multi-armed contextual bandits, and audience arbitration against campaign goals and KPIs.",
           "Delivered Salesforce's first generative AI experience for Marketing Cloud; owned cross-cloud coordination across Data Cloud, Agentforce, Commerce Cloud, and beyond to bring autonomous agents to GA — scaling from a 3-customer pilot → 100+ beta → 500+ GA accounts.",
           "Pioneered multi-agent interoperability — bootstrapped MCP (client + Salesforce-hosted servers exposing Marketing Cloud to external agents) and aligned the Campaign Agent to A2A/A2UI for secure cross-agent collaboration.",
           "Architected the \"Brand Grounding\" and \"Salesforce Brief\" trust layers — RAG, semantic vector search, and a Marketing Cloud Semantics Layer that vectorizes every campaign artifact within 60 seconds for brand-accurate output.",
@@ -30,7 +31,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "Teradata",
     "dates": "2015 – 2017",
-    "color": "cyan",
+    "color": "td-orange",
     "roles": [
       {
         "title": "Product Manager & Scrum Product Owner — Intellisphere Data Ingestion",
@@ -44,7 +45,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "Roku",
     "dates": "2015",
-    "color": "bronze",
+    "color": "roku-purple",
     "roles": [
       {
         "title": "Product Software Partner Manager",
@@ -57,7 +58,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "AMD",
     "dates": "2007 – 2015",
-    "color": "violet",
+    "color": "amd-red",
     "roles": [
       {
         "title": "Member of Technical Staff — SLT & Burn-In Equipment Lead",

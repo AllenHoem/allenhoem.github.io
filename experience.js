@@ -2,7 +2,7 @@ var EXPERIENCE_DATA = [
   {
     "company": "Salesforce",
     "dates": "Nov 2016 – Present",
-    "color": "cyan",
+    "color": "sfblue",
     "roles": [
       {
         "title": "Director of Product Management — Marketing Cloud & Agentforce",
@@ -20,7 +20,7 @@ var EXPERIENCE_DATA = [
       {
         "title": "Senior Product Manager — Real-Time Messaging Platform",
         "dates": "2016 – 2019",
-        "color": "cyan",
+        "color": "sfblue",
         "bullets": [
           "Earned the **2019 Salesforce Innovation Award** for a low-latency transactional platform with viral enterprise adoption.",
           "Migrated Salesforce Pardot onto the real-time engine, onboarding 8,000+ enterprise customers; powered MFA & Vaccine Cloud."

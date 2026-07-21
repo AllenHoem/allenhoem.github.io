@@ -132,6 +132,7 @@
         <a href="#pillars" class="navlink hover:text-ink dark:hover:text-white transition-colors">Strengths</a>
         <a href="#stack" class="navlink hover:text-ink dark:hover:text-white transition-colors">Stack</a>
         <a href="#experience" class="navlink hover:text-ink dark:hover:text-white transition-colors">Experience</a>
+        <a href="#speaking" class="navlink hover:text-ink dark:hover:text-white transition-colors">Public Speaking</a>
         <a href="#testimonials" class="navlink hover:text-ink dark:hover:text-white transition-colors">Voices</a>
         <a href="#recognition" class="navlink hover:text-ink dark:hover:text-white transition-colors">Recognition</a>
       </div>
@@ -423,6 +424,23 @@
     </div>
   </section>
 
+  <!-- ============ PUBLIC SPEAKING & PRODUCT GUIDES ============ -->
+  <section id="speaking" class="py-24 md:py-32 border-t border-ink/5 dark:border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal max-w-2xl mb-14">
+        <p class="font-display text-sm uppercase tracking-[0.18em] text-bronze dark:text-cyan/90">Public Speaking</p>
+        <h2 class="mt-3 font-display font-700 text-3xl md:text-5xl text-ink dark:text-white leading-tight">Recent Presentations and Talks</h2>
+      </div>
+      <div id="speaking-talks" class="grid md:grid-cols-3 gap-6"></div>
+
+      <div class="reveal max-w-2xl mt-20 mb-10">
+        <h3 class="font-display font-700 text-2xl md:text-3xl text-ink dark:text-white leading-tight">Recently Shipped Product Guides</h3>
+        <p class="mt-3 text-lg text-ink/70 dark:text-slate-400">See what I owned and built — live product, in customers' hands.</p>
+      </div>
+      <div id="speaking-guides" class="grid md:grid-cols-2 gap-6"></div>
+    </div>
+  </section>
+
   <!-- ============ TESTIMONIALS ============ -->
   <section id="testimonials" class="py-24 md:py-32 border-t border-ink/5 dark:border-white/5">
     <div class="max-w-6xl mx-auto px-6">
@@ -709,6 +727,44 @@
       var container = document.getElementById('experience-timeline');
       container.innerHTML = EXPERIENCE_DATA.map(buildEntry).join('');
       container.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+  <script src="speaking.js"></script>
+  <script>
+    // Public Speaking renderer — data loaded from speaking.js (SPEAKING_DATA)
+    (function () {
+      var palette = tailwind.config.theme.extend.colors;
+
+      function buildCard(item) {
+        var hex = palette[item.color] || palette.violet;
+        var linksHtml = item.links.map(function (l) {
+          return '<a href="' + l.url + '" target="_blank" rel="noopener" '
+            + 'class="text-sm font-semibold hover:underline underline-offset-4" style="color:' + hex + '">'
+            + l.label + ' &rarr;</a>';
+        }).join('');
+        var venueHtml = item.venue
+          ? '<p class="text-xs text-ink/55 dark:text-slate-500 mt-1">' + item.venue + '</p>'
+          : '';
+        var noteHtml = item.note
+          ? '<p class="text-xs italic text-ink/50 dark:text-slate-500">' + item.note + '</p>'
+          : '';
+        return '<div class="reveal rounded-2xl border border-ink/10 dark:border-white/10 bg-white/60 dark:bg-surface p-7 flex flex-col gap-4">'
+          + '<span class="self-start text-[11px] uppercase tracking-wider font-semibold rounded-full border px-3 py-1" style="color:' + hex + ';border-color:' + hex + '66">' + item.badge + '</span>'
+          + '<div><h4 class="font-display font-600 text-lg leading-snug text-ink dark:text-white">' + item.title + '</h4>' + venueHtml + '</div>'
+          + '<p class="text-sm leading-relaxed text-ink/70 dark:text-slate-400 flex-1">' + item.overview + '</p>'
+          + noteHtml
+          + '<div class="flex flex-wrap gap-x-5 gap-y-2 pt-3 border-t border-ink/5 dark:border-white/5">' + linksHtml + '</div>'
+          + '</div>';
+      }
+
+      var talks = document.getElementById('speaking-talks');
+      var guides = document.getElementById('speaking-guides');
+      talks.innerHTML = SPEAKING_DATA.talks.map(buildCard).join('');
+      guides.innerHTML = SPEAKING_DATA.guides.map(buildCard).join('');
+      [talks, guides].forEach(function (c) {
+        c.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+      });
     })();
   </script>
 </body>

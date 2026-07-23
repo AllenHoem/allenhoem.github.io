@@ -115,6 +115,20 @@
       .reveal { opacity:1 !important; transform:none !important; transition:none; }
       html { scroll-behavior: auto; }
     }
+
+    /* ===== Agent panel ===== */
+    #agent-panel { height: 38vh; transition: height .35s cubic-bezier(.2,.7,.2,1), opacity .25s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+    #agent-panel.tall { height: 50vh; }
+    #agent-panel.hidden-panel { opacity: 0; transform: translate(-50%, 16px); pointer-events: none; }
+    #agent-bar.hidden-bar { opacity: 0; transform: translate(-50%, 16px); pointer-events: none; }
+    #agent-bar { transition: opacity .25s ease, transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s; }
+    .agent-msg a { text-decoration: underline; text-underline-offset: 3px; }
+    .agent-cursor::after { content: '▍'; animation: agent-blink 1s steps(2) infinite; opacity:.7; }
+    @keyframes agent-blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      #agent-panel, #agent-bar { transition: none; }
+      .agent-cursor::after { animation: none; }
+    }
   </style>
 </head>
 
@@ -623,6 +637,51 @@
     </div>
   </footer>
 
+  <!-- ============ AGENT PANEL ============ -->
+  <button id="agent-bar"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center gap-2 h-10 px-6 whitespace-nowrap rounded-lg border border-ink/15 dark:border-white/15 bg-cream/90 dark:bg-surface/90 backdrop-blur-md text-sm font-semibold text-ink dark:text-white shadow-lg hover:border-violet/60 dark:hover:border-cyan/60"
+    aria-haspopup="dialog" aria-expanded="false" aria-controls="agent-panel">
+    <span class="grad-accent font-display">✦</span>
+    Ask about my work
+  </button>
+
+  <section id="agent-panel" role="dialog" aria-label="Ask Allen's agent" aria-modal="false"
+    class="hidden-panel fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-[720px] flex flex-col rounded-2xl border border-ink/15 dark:border-white/15 bg-cream/95 dark:bg-canvas/95 backdrop-blur-md shadow-2xl shadow-ink/10 dark:shadow-black/40">
+    <header class="flex items-center gap-3 px-4 py-2.5 border-b border-ink/10 dark:border-white/10 shrink-0">
+      <span class="grad-accent font-display text-lg leading-none">✦</span>
+      <div class="flex-1 min-w-0">
+        <p class="font-display font-600 text-sm text-ink dark:text-white leading-tight">Ask Allen's agent</p>
+        <p class="text-[11px] text-ink/55 dark:text-slate-500 leading-tight">Answers questions about Allen's career</p>
+      </div>
+      <button id="agent-expand" aria-label="Expand panel" title="Expand"
+        class="h-8 w-8 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/60 dark:text-slate-400 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 4H4v4m0-4 6 6m6-6h4v4m0-4-6 6"/></svg>
+      </button>
+      <button id="agent-close" aria-label="Close panel" title="Close"
+        class="h-8 w-8 grid place-items-center rounded-lg border border-ink/10 dark:border-white/10 text-ink/60 dark:text-slate-400 hover:border-violet/50 hover:text-violet dark:hover:text-cyan transition-colors">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+
+    <div id="agent-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-sm leading-relaxed" aria-live="polite"></div>
+
+    <div id="agent-chips" class="px-4 pb-2 flex flex-wrap gap-2"></div>
+
+    <form id="agent-form" class="px-3 pb-2 shrink-0">
+      <div class="flex items-center gap-2 rounded-xl border border-ink/15 dark:border-white/15 bg-white/70 dark:bg-surface px-3 focus-within:border-violet/60 dark:focus-within:border-cyan/60 transition-colors">
+        <input id="agent-input" type="text" maxlength="1000" autocomplete="off"
+          placeholder="Ask about Allen's career…"
+          class="flex-1 h-11 bg-transparent outline-none text-sm text-ink dark:text-white placeholder:text-ink/40 dark:placeholder:text-slate-500" />
+        <button id="agent-send" type="submit" aria-label="Send"
+          class="shrink-0 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-ink dark:bg-white text-white dark:text-canvas text-xs font-semibold disabled:opacity-40 transition-opacity">
+          Send
+          <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6"/></svg>
+        </button>
+      </div>
+    </form>
+    <p class="px-4 pb-2 text-[10px] text-ink/40 dark:text-slate-600 shrink-0">Built by Allen on Claude + Cloudflare — ask me how.</p>
+  </section>
+
   <script>
     // Theme toggle
     document.getElementById('themeToggle').addEventListener('click', function () {
@@ -765,6 +824,225 @@
       [talks, guides].forEach(function (c) {
         c.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
       });
+    })();
+  </script>
+
+  <script>
+    // ============ Agent panel client ============
+    // Streams grounded Q&A from the Cloudflare Worker proxy (see allenhoem-agent-worker repo).
+    (function () {
+      var IS_LOCAL = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+      // TODO(deploy): replace with the deployed Worker URL once `wrangler deploy` runs.
+      var ENDPOINT = IS_LOCAL
+        ? 'http://localhost:8787/chat'
+        : 'https://allenhoem-agent-worker.REPLACE_SUBDOMAIN.workers.dev/chat';
+
+      var SUGGESTIONS = [
+        'What did Allen build at Salesforce?',
+        'How does Allen approach agent grounding?',
+        'What patents does Allen hold?'
+      ];
+      var MAX_TURNS = 8; // user+assistant pairs sent to the Worker (its cap is 16 messages)
+
+      var bar = document.getElementById('agent-bar');
+      var panel = document.getElementById('agent-panel');
+      var messagesEl = document.getElementById('agent-messages');
+      var chipsEl = document.getElementById('agent-chips');
+      var form = document.getElementById('agent-form');
+      var input = document.getElementById('agent-input');
+      var sendBtn = document.getElementById('agent-send');
+      var expandBtn = document.getElementById('agent-expand');
+      var closeBtn = document.getElementById('agent-close');
+
+      var state = { open: false, tall: false, busy: false, history: [] };
+      try {
+        var saved = JSON.parse(sessionStorage.getItem('agentPanel') || 'null');
+        if (saved) { state.open = !!saved.open; state.tall = !!saved.tall; state.history = saved.history || []; }
+      } catch (e) {}
+
+      function persist() {
+        try {
+          sessionStorage.setItem('agentPanel', JSON.stringify({
+            open: state.open, tall: state.tall, history: state.history.slice(-2 * MAX_TURNS)
+          }));
+        } catch (e) {}
+      }
+
+      function escapeHtml(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      // Minimal formatting: bold, bare-URL links, line breaks. Input is escaped first.
+      function formatText(s) {
+        var html = escapeHtml(s)
+          .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-ink dark:text-white">$1</strong>')
+          .replace(/(https?:\/\/[^\s<)]+)/g, function (u) {
+            return '<a href="' + u + '" target="_blank" rel="noopener" class="text-violet dark:text-cyan">' + u + '</a>';
+          });
+        return html.replace(/\n/g, '<br>');
+      }
+
+      function bubble(role) {
+        var wrap = document.createElement('div');
+        var inner = document.createElement('div');
+        if (role === 'user') {
+          wrap.className = 'flex justify-end';
+          inner.className = 'agent-msg max-w-[85%] rounded-xl rounded-br-sm bg-ink/[0.06] dark:bg-white/10 px-3.5 py-2 text-ink/90 dark:text-slate-200';
+        } else {
+          wrap.className = 'flex justify-start';
+          inner.className = 'agent-msg max-w-[85%] rounded-xl rounded-bl-sm border border-violet/20 dark:border-cyan/20 bg-white/70 dark:bg-surface px-3.5 py-2 text-ink/85 dark:text-slate-300';
+        }
+        wrap.appendChild(inner);
+        messagesEl.appendChild(wrap);
+        return inner;
+      }
+
+      function notice(text) {
+        var el = document.createElement('p');
+        el.className = 'text-xs text-center text-ink/50 dark:text-slate-500 px-6';
+        el.textContent = text;
+        messagesEl.appendChild(el);
+        scrollDown();
+      }
+
+      function scrollDown() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+      function renderHistory() {
+        messagesEl.innerHTML = '';
+        if (state.history.length === 0) {
+          var hello = bubble('assistant');
+          hello.innerHTML = formatText("Hi — I'm Allen's agent. Ask me anything about his career: Agentforce, high-scale messaging platforms, patents, talks, or what he's shipped.");
+        } else {
+          state.history.forEach(function (m) { bubble(m.role).innerHTML = formatText(m.content); });
+        }
+        renderChips();
+        scrollDown();
+      }
+
+      function renderChips() {
+        chipsEl.innerHTML = '';
+        if (state.history.length > 0) return;
+        SUGGESTIONS.forEach(function (q) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'text-xs rounded-full border border-dashed border-violet/40 dark:border-cyan/40 text-violet dark:text-cyan px-3 py-1.5 hover:bg-violet/5 dark:hover:bg-cyan/10 transition-colors';
+          b.textContent = q;
+          b.addEventListener('click', function () { send(q); });
+          chipsEl.appendChild(b);
+        });
+      }
+
+      function setOpen(open) {
+        state.open = open;
+        panel.classList.toggle('hidden-panel', !open);
+        bar.classList.toggle('hidden-bar', open);
+        bar.setAttribute('aria-expanded', String(open));
+        if (open && window.innerWidth < 640 && !state.tall) setTall(true); // mobile opens tall
+        if (open) { renderHistory(); input.focus(); }
+        persist();
+      }
+
+      function setTall(tall) {
+        state.tall = tall;
+        panel.classList.toggle('tall', tall);
+        expandBtn.setAttribute('aria-label', tall ? 'Collapse panel' : 'Expand panel');
+        expandBtn.title = tall ? 'Collapse' : 'Expand';
+        persist();
+      }
+
+      function setBusy(busy) {
+        state.busy = busy;
+        sendBtn.disabled = busy;
+        input.disabled = busy;
+      }
+
+      async function send(text) {
+        text = (text || '').trim();
+        if (!text || state.busy) return;
+        input.value = '';
+        chipsEl.innerHTML = '';
+        state.history.push({ role: 'user', content: text });
+        bubble('user').innerHTML = formatText(text);
+        scrollDown();
+        setBusy(true);
+
+        var out = bubble('assistant');
+        out.classList.add('agent-cursor');
+        var acc = '';
+        try {
+          var payload = state.history.slice(-(2 * MAX_TURNS - 1));
+          while (payload.length && payload[0].role !== 'user') payload.shift();
+          var res = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: payload })
+          });
+
+          if (!res.ok) {
+            var err = {};
+            try { err = await res.json(); } catch (e) {}
+            messagesEl.removeChild(out.parentNode);
+            state.history.pop();
+            notice(err.message || 'The agent is briefly unavailable — try again in a moment, or email allen.hoem@gmail.com.');
+            return;
+          }
+
+          var reader = res.body.getReader();
+          var decoder = new TextDecoder();
+          var buf = '';
+          for (;;) {
+            var chunk = await reader.read();
+            if (chunk.done) break;
+            buf += decoder.decode(chunk.value, { stream: true });
+            var lines = buf.split('\n');
+            buf = lines.pop();
+            for (var i = 0; i < lines.length; i++) {
+              var line = lines[i];
+              if (line.indexOf('data: ') !== 0) continue;
+              var ev;
+              try { ev = JSON.parse(line.slice(6)); } catch (e) { continue; }
+              if (ev.type === 'content_block_delta' && ev.delta && ev.delta.type === 'text_delta') {
+                acc += ev.delta.text;
+                out.innerHTML = formatText(acc);
+                scrollDown();
+              } else if (ev.type === 'error') {
+                throw new Error(ev.error && ev.error.message || 'stream error');
+              }
+            }
+          }
+          if (acc) {
+            state.history.push({ role: 'assistant', content: acc });
+          } else {
+            messagesEl.removeChild(out.parentNode);
+            state.history.pop();
+            notice('No response came back — try again, or email allen.hoem@gmail.com.');
+          }
+        } catch (e) {
+          if (acc) {
+            state.history.push({ role: 'assistant', content: acc });
+          } else {
+            if (out.parentNode && out.parentNode.parentNode === messagesEl) messagesEl.removeChild(out.parentNode);
+            state.history.pop();
+            notice("Couldn't reach the agent — check your connection, or email allen.hoem@gmail.com.");
+          }
+        } finally {
+          out.classList.remove('agent-cursor');
+          setBusy(false);
+          persist();
+          input.focus();
+        }
+      }
+
+      bar.addEventListener('click', function () { setOpen(true); });
+      closeBtn.addEventListener('click', function () { setOpen(false); });
+      expandBtn.addEventListener('click', function () { setTall(!state.tall); });
+      form.addEventListener('submit', function (e) { e.preventDefault(); send(input.value); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && state.open) setOpen(false);
+      });
+
+      // Restore prior in-visit state
+      if (state.tall) panel.classList.add('tall');
+      if (state.open) setOpen(true);
     })();
   </script>
 </body>

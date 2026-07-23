@@ -831,11 +831,10 @@
     // ============ Agent panel client ============
     // Streams grounded Q&A from the Cloudflare Worker proxy (see allenhoem-agent-worker repo).
     (function () {
-      var IS_LOCAL = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-      // TODO(deploy): replace with the deployed Worker URL once `wrangler deploy` runs.
-      var ENDPOINT = IS_LOCAL
+      // localhost hits a `wrangler dev` worker; everything else (incl. file:// preview) hits prod.
+      var ENDPOINT = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
         ? 'http://localhost:8787/chat'
-        : 'https://allenhoem-agent-worker.REPLACE_SUBDOMAIN.workers.dev/chat';
+        : 'https://allenhoem-agent-worker.allenhoem.workers.dev/chat';
 
       var SUGGESTIONS = [
         'What did Allen build at Salesforce?',

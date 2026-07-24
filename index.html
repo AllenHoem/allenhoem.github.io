@@ -871,6 +871,11 @@
         } catch (e) {}
       }
 
+      // Google Analytics (G-MV0ZCNG2H2) — safe no-op if gtag is blocked/absent.
+      function track(name, params) {
+        try { if (window.gtag) window.gtag('event', name, params || {}); } catch (e) {}
+      }
+
       function escapeHtml(s) {
         return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       }
@@ -929,7 +934,7 @@
           b.type = 'button';
           b.className = 'text-xs rounded-full border border-dashed border-violet/40 dark:border-cyan/40 text-violet dark:text-cyan px-3 py-1.5 hover:bg-violet/5 dark:hover:bg-cyan/10 transition-colors';
           b.textContent = q;
-          b.addEventListener('click', function () { send(q); });
+          b.addEventListener('click', function () { send(q, 'chip'); });
           chipsEl.appendChild(b);
         });
       }
@@ -958,12 +963,13 @@
         input.disabled = busy;
       }
 
-      async function send(text) {
+      async function send(text, source) {
         text = (text || '').trim();
         if (!text || state.busy) return;
         input.value = '';
         chipsEl.innerHTML = '';
         state.history.push({ role: 'user', content: text });
+        track('agent_question', { source: source || 'typed', question: text.slice(0, 100) });
         bubble('user').innerHTML = formatText(text);
         scrollDown();
         setBusy(true);
@@ -985,6 +991,7 @@
             try { err = await res.json(); } catch (e) {}
             messagesEl.removeChild(out.parentNode);
             state.history.pop();
+            track(res.status === 429 ? 'agent_rate_limited' : 'agent_error', { status: res.status });
             notice(err.message || 'The agent is briefly unavailable — try again in a moment, or email allen.hoem@gmail.com.');
             return;
           }
@@ -1014,17 +1021,21 @@
           }
           if (acc) {
             state.history.push({ role: 'assistant', content: acc });
+            track('agent_answer', { chars: acc.length });
           } else {
             messagesEl.removeChild(out.parentNode);
             state.history.pop();
+            track('agent_error', { reason: 'empty' });
             notice('No response came back — try again, or email allen.hoem@gmail.com.');
           }
         } catch (e) {
           if (acc) {
             state.history.push({ role: 'assistant', content: acc });
+            track('agent_answer', { chars: acc.length, interrupted: true });
           } else {
             if (out.parentNode && out.parentNode.parentNode === messagesEl) messagesEl.removeChild(out.parentNode);
             state.history.pop();
+            track('agent_error', { reason: 'network' });
             notice("Couldn't reach the agent — check your connection, or email allen.hoem@gmail.com.");
           }
         } finally {
@@ -1039,14 +1050,15 @@
         if (state.busy) return;
         state.history = [];
         try { sessionStorage.removeItem('agentPanel'); } catch (e) {}
+        track('agent_new_chat');
         renderHistory();
         persist();
         input.focus();
       });
-      bar.addEventListener('click', function () { setOpen(true); });
+      bar.addEventListener('click', function () { track('agent_panel_open'); setOpen(true); });
       closeBtn.addEventListener('click', function () { setOpen(false); });
-      expandBtn.addEventListener('click', function () { setTall(!state.tall); });
-      form.addEventListener('submit', function (e) { e.preventDefault(); send(input.value); });
+      expandBtn.addEventListener('click', function () { track('agent_panel_expand', { expanded: !state.tall }); setTall(!state.tall); });
+      form.addEventListener('submit', function (e) { e.preventDefault(); send(input.value, 'typed'); });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && state.open) setOpen(false);
       });
